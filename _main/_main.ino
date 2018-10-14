@@ -2,8 +2,9 @@
 #include <Adafruit_PWMServoDriver.h>
 #include <PID_v1.h>
 #include "src/Leg/Leg.h"
+#include <EasyTransfer.h>
 
- 
+
 
 
 /*===================================== */
@@ -14,22 +15,34 @@ Leg leftLeg("LEFT", LegConfig{1, 0, 3, 2, 5, 4, 7, 6, A1, A0, A3, A2, 2640, 2023
 Leg rightLeg("RIGHT", LegConfig{9, 8, 11, 10, 13, 12, 15, 14, A5, A4, A7, A6, 2657, 1846, 2633, 2354}, &pwmDriver);
 
 
+//Motion data to be transfered via Serial
+struct MotionData {
+  float pitch;
+  float roll;
+};
+
+MotionData motionData;
+EasyTransfer pelvisET;
+
+
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   analogReadResolution(12);
-  
+
   pwmDriver.begin();
-  pwmDriver.setPWMFreq(800); 
+  pwmDriver.setPWMFreq(800);
   Wire.setClock(200000);
-  
+
   leftLeg.setup();
   rightLeg.setup();
 
   pinMode(22, INPUT_PULLUP);
   pinMode(23, INPUT_PULLUP);
 
+//  Serial1.begin(115200);
+//  pelvisET.begin(details(motionData), &Serial1);
 
 }
 
@@ -41,7 +54,15 @@ void loop() {
   leftLeg.loop();
   rightLeg.loop();
   //Serial.println (String(lBtn) + "," + String(rBtn));
-  
+
+//
+//  if (pelvisET.receiveData()) {
+//    Serial.print(motionData.pitch* 180/M_PI); Serial.print(",");
+//    Serial.println(motionData.roll* 180/M_PI);
+//  }
+
+
+
   if (!lBtn && !rBtn) {
 //    leftLeg.stopAllMotors();
 //    rightLeg.stopAllMotors();
@@ -49,7 +70,7 @@ void loop() {
       rightLeg.ankleRollTarget = 0;
       leftLeg.hipRollTarget = 0;
       rightLeg.hipRollTarget = 0;
-      
+
       leftLeg.anklePitchTarget = 0;
       rightLeg.anklePitchTarget = 0;
       leftLeg.hipPitchTarget = 0;
@@ -65,7 +86,7 @@ void loop() {
       rightLeg.anklePitchTarget = 0;
       leftLeg.hipPitchTarget = 0;
       rightLeg.hipPitchTarget = 0;
-      
+
 //      leftLeg.runAllMotorsCW(1024);
 //      rightLeg.runAllMotorsCW(1024);
     } else {
@@ -80,7 +101,7 @@ void loop() {
 
   leftLeg.runForTargets();
   rightLeg.runForTargets();
-  
-  leftLeg.debugSensors(",512,-512,");
-  rightLeg.debugSensors();
+
+//  leftLeg.debugSensors(",512,-512,");
+//  rightLeg.debugSensors();
 }

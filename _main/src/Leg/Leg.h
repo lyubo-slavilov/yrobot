@@ -90,7 +90,7 @@ class Leg {
       pwmDriver->setPWM(cfg.b1CCW, 0, 4096);
       pwmDriver->setPWM(cfg.b2CW, 0, 4096);
       pwmDriver->setPWM(cfg.b2CCW, 0, 4096);
-      delay(10);
+      //delay(10);
     }
 
     void runAllMotorsCW(word speed) {
@@ -101,7 +101,7 @@ class Leg {
       pwmDriver->setPWM(cfg.t2CW, 0, speed);
       pwmDriver->setPWM(cfg.b1CW, 0, speed);
       pwmDriver->setPWM(cfg.b2CW, 0, speed);
-      delay(10);
+      //delay(10);
 
     }
 
@@ -113,7 +113,7 @@ class Leg {
       pwmDriver->setPWM(cfg.t2CCW, 0, speed);
       pwmDriver->setPWM(cfg.b1CCW, 0, speed);
       pwmDriver->setPWM(cfg.b2CCW, 0, speed);
-      delay(10);
+      //delay(10);
 
     }
 
@@ -166,7 +166,7 @@ class Leg {
           pwmDriver->setPWM(cfg.t2CCW, 0, 4096);
         }
 
-        // delay(10);
+         delay(10);
         // String mtrDir = "CW";
         // if (mtrLeft > 0) {
         //   analogWrite(mtrLeftPwmCCWPin, 0);
