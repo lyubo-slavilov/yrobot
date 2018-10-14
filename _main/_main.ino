@@ -47,14 +47,32 @@ void loop() {
 //    rightLeg.stopAllMotors();
       leftLeg.ankleRollTarget = 0;
       rightLeg.ankleRollTarget = 0;
+      leftLeg.hipRollTarget = 0;
+      rightLeg.hipRollTarget = 0;
+      
+      leftLeg.anklePitchTarget = 0;
+      rightLeg.anklePitchTarget = 0;
+      leftLeg.hipPitchTarget = 0;
+      rightLeg.hipPitchTarget = 0;
   } else {
     if (lBtn) {
-      leftLeg.ankleRollTarget = -150;
-      rightLeg.ankleRollTarget = -150;
-        
+      leftLeg.ankleRollTarget = 0;
+      rightLeg.ankleRollTarget = 0;
+      leftLeg.hipRollTarget = 0;
+      rightLeg.hipRollTarget = 0;
+
+      leftLeg.anklePitchTarget = 0;
+      rightLeg.anklePitchTarget = 0;
+      leftLeg.hipPitchTarget = 0;
+      rightLeg.hipPitchTarget = 0;
+      
+//      leftLeg.runAllMotorsCW(1024);
+//      rightLeg.runAllMotorsCW(1024);
     } else {
-      leftLeg.ankleRollTarget = 150;
-      rightLeg.ankleRollTarget = 150;
+      leftLeg.anklePitchTarget = 400;
+      rightLeg.anklePitchTarget = 400;
+      leftLeg.hipPitchTarget = 400;
+      rightLeg.hipPitchTarget = 400;
 //      leftLeg.runAllMotorsCCW(1024);
 //      rightLeg.runAllMotorsCCW(1024);
     }
@@ -63,6 +81,6 @@ void loop() {
   leftLeg.runForTargets();
   rightLeg.runForTargets();
   
-//  leftLeg.debugSensors(",512,-512,");
-//  rightLeg.debugSensors();
+  leftLeg.debugSensors(",512,-512,");
+  rightLeg.debugSensors();
 }

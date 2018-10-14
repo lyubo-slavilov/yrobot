@@ -15,6 +15,7 @@ struct LegConfig {
   int ankleRollOffset;
   int hipPitchOffset;
   int hipRollOffset;
+
 };
 
 class Leg {
@@ -34,7 +35,7 @@ class Leg {
       anklePitch = (anklePitch * 4 + tmp) / 5;
 
       tmp = analogRead(cfg.ankleRollPin) - cfg.ankleRollOffset;
-      ankleRoll = (ankleRoll * 4 + tmp)/ 5;
+      ankleRoll =(ankleRoll * 4 + tmp)/ 5;
 
       tmp = analogRead(cfg.hipPitchPin) - cfg.hipPitchOffset;
       hipPitch = (hipPitch * 4 + tmp) / 5;
@@ -62,6 +63,7 @@ class Leg {
     double hipRollSpeed = 0;
 
     Leg(String name, LegConfig cfg, Adafruit_PWMServoDriver* pwmDriver) {
+
       this->name = name;
       this->cfg = cfg;
       this->pwmDriver = pwmDriver;
@@ -140,6 +142,31 @@ class Leg {
           pwmDriver->setPWM(cfg.b2CCW, 0, 4096);
         }
 
+
+        mtr1 =  ( hipPitchSpeed - hipRollSpeed);
+        mtr2 =  (hipPitchSpeed +  hipRollSpeed);
+
+        if (mtr1 > 0) {
+          if (mtr1 > 4095) mtr1 = 4095;
+          pwmDriver->setPWM(cfg.t1CW, 0, 4096);
+          pwmDriver->setPWM(cfg.t1CCW, 0, (int) mtr1);
+        } else {
+          if (mtr1 < -4095) mtr1 = -4095;
+          pwmDriver->setPWM(cfg.t1CW, 0, (int) - mtr1);
+          pwmDriver->setPWM(cfg.t1CCW, 0, 4096);
+        }
+
+        if (mtr2 > 0) {
+          if (mtr2 > 4095) mtr2 = 4095;
+          pwmDriver->setPWM(cfg.t2CW, 0, 4096);
+          pwmDriver->setPWM(cfg.t2CCW, 0,(int) mtr2);
+        } else {
+          if (mtr2 < -4095) mtr2 = -4095;
+          pwmDriver->setPWM(cfg.t2CW, 0, (int) - mtr2);
+          pwmDriver->setPWM(cfg.t2CCW, 0, 4096);
+        }
+
+        // delay(10);
         // String mtrDir = "CW";
         // if (mtrLeft > 0) {
         //   analogWrite(mtrLeftPwmCCWPin, 0);
@@ -210,7 +237,7 @@ class Leg {
       readSensors();
       computeSpeeds();
 
-      Serial.println(String(anklePitchSpeed) + "," + String(ankleRollSpeed));
+      //Serial.println(name + ": " + (anklePitchSpeed) + "," + String(ankleRollSpeed));
     }
 
 
