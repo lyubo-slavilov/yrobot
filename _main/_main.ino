@@ -41,8 +41,8 @@ void setup() {
   pinMode(22, INPUT_PULLUP);
   pinMode(23, INPUT_PULLUP);
 
-//  Serial1.begin(115200);
-//  pelvisET.begin(details(motionData), &Serial1);
+  Serial1.begin(115200);
+  pelvisET.begin(details(motionData), &Serial1);
 
 }
 
@@ -55,11 +55,11 @@ void loop() {
   rightLeg.loop();
   //Serial.println (String(lBtn) + "," + String(rBtn));
 
-//
-//  if (pelvisET.receiveData()) {
-//    Serial.print(motionData.pitch* 180/M_PI); Serial.print(",");
-//    Serial.println(motionData.roll* 180/M_PI);
-//  }
+
+  if (pelvisET.receiveData()) {
+    Serial.print(motionData.pitch* 180/M_PI); Serial.print(",");
+    Serial.println(motionData.roll* 180/M_PI);
+  }
 
 
 
